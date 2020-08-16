@@ -1,0 +1,30 @@
+CREATE VIEW "RSD_REL_CR_Parcelas" AS 
+
+SELECT T2."DocNum"
+, SUM(T2."Parcelas") AS "QtdParcelas"
+, COUNT(T2."DocBase") AS "QtdDocBase" 
+FROM 
+(SELECT TI."DocNum"
+, TI."DocEntry" AS "DocBase"
+, TI."InvType" AS "BaseType"
+, COUNT(TI."InvoiceId") AS "Parcelas" 
+FROM RCT2 TI 
+GROUP BY TI."DocNum", TI."InvType", TI."DocEntry") AS T2 GROUP BY T2."DocNum";
+
+
+
+CREATE VIEW "RSD_REL_CR_Documento" AS 
+
+SELECT DISTINCT T2."DocNum"
+, CASE T3."QtdDocBase" WHEN '1' THEN T2."DocEntry" 
+	ELSE T2."DocNum" 
+	END AS "DocBase"
+, CASE T3."QtdDocBase" WHEN '1' THEN T2."InvType" 
+	ELSE '24' 
+	END AS "DocType"
+, CASE T3."QtdParcelas" WHEN '1' THEN T2."InstId" 
+	ELSE '0' 
+	END AS "Parcela" 
+FROM RCT2 T2 
+INNER JOIN "RSD_REL_CR_Parcelas" T3 ON T3."DocNum" = T2."DocNum"--T2.Invtype,T2.Docentry,
+
