@@ -1,0 +1,23 @@
+
+use SBODemoBR 
+ 
+go 
+ 
+--pedidos de vendas por grupo de clientes
+
+SELECT 
+	T0.[CARDCODE],
+	T0.[CARDNAME],
+	T0.DocEntry,
+	T0.[DOCNUM],
+	T0.[DOCDATE],
+	T0.[DOCTOTAL],
+	T2.[GROUPNAME]
+FROM 
+	ORDR T0
+	INNER JOIN OCRD T1 ON T0.CARDCODE = T1.CARDCODE
+	INNER JOIN OCRG T2 ON T1.GROUPCODE = T2.GROUPCODE
+where
+	CANCELED<>'Y'
+ORDER BY 
+	T2.[GROUPNAME] 

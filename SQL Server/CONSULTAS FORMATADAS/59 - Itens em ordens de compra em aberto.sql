@@ -1,0 +1,24 @@
+
+use SBODemoBR 
+ 
+go 
+ 
+
+ --Itens em Pedido de compra em aberto
+SELECT 
+	T0.DocEntry,
+	T0.DocNum,
+	T1.[ITEMCODE],
+	T1.[DSCRIPTION],
+	T1.[QUANTITY],
+	T1.[OPENQTY],
+	T0.[DOCDUEDATE],
+	T0.[CARDCODE],
+	T0.[CARDNAME]
+FROM 
+	OPOR T0
+	INNER JOIN POR1 T1 ON T0.DOCENTRY = T1.DOCENTRY
+WHERE 
+	T1.[LINESTATUS] ='O'
+ORDER BY 
+	T1.[ITEMCODE] 

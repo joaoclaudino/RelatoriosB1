@@ -1,0 +1,21 @@
+
+use SBODemoBR 
+ 
+go 
+ 
+ --Itens em estoque por depósito
+SELECT T0.[ITEMCODE],
+       T0.[ITEMNAME],
+       T0.[ITMSGRPCOD],
+       T1.[ITMSGRPNAM],
+       T2.[WHSCODE],
+       T2.[ONHAND] 'Em Estoque',
+       T2.[ONORDER] 'Pedida'
+FROM 
+	OITM T0
+	INNER JOIN OITB T1 ON T0.ITMSGRPCOD = T1.ITMSGRPCOD
+	INNER JOIN OITW T2 ON T0.ITEMCODE = T2.ITEMCODE
+WHERE T2.[WHSCODE] = '[%0]'
+ORDER BY 
+	T1.[ITMSGRPNAM],
+	T0.[ITEMCODE] 
